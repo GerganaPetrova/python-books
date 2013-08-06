@@ -1,23 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import User as BaseUser
 
-class Users(models.Model):
-    name = models.CharField(max_length = 100)
-    username = models.CharField(max_length = 20, unique = True)
-    password = models.CharField(max_length = 20)
-    e_mail = models.CharField(max_length = 100)
+class User(BaseUser):
+    pass
 
-class Books(models.Model):
-    user_id = models.ForeignKey('Users')
+class Book(models.Model):
+    user = models.ForeignKey('User')
     text = models.TextField()
     author = models.CharField(max_length = 50)
     title = models.CharField(max_length = 100)
 
-class Quotes(models.Model):
-    book_id = models.ForeignKey('Books')
-    user_id = models.ForeignKey('Users')
+    @property
+    def pages(self):
+        page_length = 25
+        lines = self.text.split('\n')
+        return [lines[i:i+page_length] for i in range(0, len(lines), page_length)]    
+
+class Quote(models.Model):
+    book = models.ForeignKey('Book')
+    user = models.ForeignKey('User')
     text = models.CharField(max_length = 100)
 
-class Reviews(models.Model):
-    bookd_id = models.ForeignKey('Books')
-    user_id = models.ForeignKey('Users')
+class Review(models.Model):
+    book = models.ForeignKey('Book')
+    user = models.ForeignKey('User')
     text = models.TextField()    
