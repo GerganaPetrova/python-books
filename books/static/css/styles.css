@@ -1,0 +1,13 @@
+#book-list {
+  position: relative;
+}
+
+.book-link {
+  position: absolute;
+  left: 0px;
+}
+
+.review-link {
+  position: absolute;
+  right: 0px;
+}

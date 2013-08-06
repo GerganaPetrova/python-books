@@ -1,0 +1,25 @@
+<form class="form-horizontal" action='/upload' method="POST" enctype="multipart/form-data">
+  
+  <div class="control-group">
+    <label class="control-label" for="inputAuthor">Author</label>
+    <div class="controls">
+      <input type="text" id="inputAuthor" name="author" placeholder="Author..." />
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputTitle">Title</label>
+    <div class="controls">
+      <input type="text" id="inputName" name="title" placeholder="Title..." />
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <input type="file" accept="text/*" id="inputFile" name="book" />
+    </div>  
+  </div>
+  <div class="controls">
+    <input type="submit" value="Upload" class="btn" /> 
+  </div>
+</form>

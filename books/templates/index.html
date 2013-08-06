@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="span8 offset3">
+        <blockquote>
+          <p><i>{{ quote.text }}</i></p>
+          <small>{{ quote.book.author }} - {{ quote.book.title }}</small>
+        </blockquote>
+    </div>
+{% endblock %}

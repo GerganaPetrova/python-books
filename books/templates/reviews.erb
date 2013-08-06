@@ -1,0 +1,9 @@
+<h4 align=center> Reviews: </h4>
+
+<ul>
+  <% for review in @reviews %>
+    <li><%= review.text %></p>
+    <p class="pull-right"><font color="#993D00"><%= review.book.author %> - <%= review.book.title %></font></li>
+  <% end %>
+</ul>
+

@@ -1,0 +1,17 @@
+<script type="text/javascript" src="/javascript/book.js"></script>
+<h3 align=center> <%= @book.author %> - <%= @book.title %> </h2>
+
+
+<ul class="pager">             
+  <li><a href="/book/<%= @book.id %>/<%= @page - 1 %>">Previous</a></li>
+  <li><a href="/book/<%= @book.id %>/<%= @page + 1 %>">Next</a></li>
+</ul>
+
+<div class="well span9 offset3" id="page">
+  <% for line in @book.page(@page) %>
+   <p> <%= line %> </p>
+  <% end %>
+</div>
+
+<button class= "btn" id="quote_btn" onclick="quote(<%= @book.id %>)">Quote</button>
+<button class= "btn" id="translate_btn" onclick="translate_selection()">Translate</button>
