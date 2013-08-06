@@ -82,6 +82,10 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+SESSION_ENGINE = (
+    'django.contrib.sessions.backends.signed_cookies'
+)
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '%xibi)r$7=8im^$dmx%227_8px)046t9!c3cy9c-noi9km@m2c'
 
