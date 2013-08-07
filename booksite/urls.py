@@ -6,6 +6,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r'^$', 'books.views.index'),
+    url(r'^login', 'books.views.my_login')
     # Examples:
     # url(r'^$', 'booksite.views.home', name='home'),
     # url(r'^booksite/', include('booksite.foo.urls')),
