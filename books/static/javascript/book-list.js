@@ -9,7 +9,7 @@ $(function() {
   });
 
   $('form button:submit').on('click', function() {
-    $.post('/review', { book_id: $('#book_id').val(), text: $('#text').val() }, function (data) {
+    $.post('/review', {'csrfmiddlewaretoken': 'RavKWurPgy54oXSBclEWumX3sybm2C1N', book_id: $('#book_id').val(), text: $('#text').val() }, function (data) {
       console.log(data);
       $('#book_id').val('');
       $('form').addClass('invisible');

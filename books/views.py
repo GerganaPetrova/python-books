@@ -116,33 +116,19 @@ def quote(request):
     response = {'success': True}
     return HttpResponse(json.dumps(response), content_type="application/json") 
 
+def reviews(request):
+    reviews = Review.objects.filter(user = request.user.id)
+    temp = loader.get_template('reviews.html')
+    context = RequestContext(request, {
+            'reviews': reviews,
+    })
+    return HttpResponse(temp.render(context))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def review(request):
+    user = User.objects.get(id = request.user.id)
+    book = Book.objects.get(id = request.POST['book_id'])
+    text = request.POST['text']
+    review = Review(user = user, book = book, text = text)
+    review.save()
+    response = {'success': True }
+    return HttpResponse(json.dumps(response), content_type='application/json')    
