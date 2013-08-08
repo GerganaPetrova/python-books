@@ -2,7 +2,7 @@ function quote(book_id) {
   var quote = window.getSelection().toString();
   if (!quote) return;
   console.log("Saving quote: " + quote);
-  jQuery.post('/quote', { 'book_id': book_id, 'quote_text': quote }, function(data) {
+  jQuery.post('/quote', { 'csrfmiddlewaretoken': 'RavKWurPgy54oXSBclEWumX3sybm2C1N','book_id': book_id, 'quote_text': quote }, function(data) {
     console.log(data)
   });
 };

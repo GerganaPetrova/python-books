@@ -7,6 +7,7 @@ from django.contrib.auth import logout,login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import random
+import json
 
 def index(request):
     try:
@@ -107,9 +108,12 @@ def quotes(request):
     return HttpResponse(temp.render(context))
 
 def quote(request):
-    quote = Quote(user = request.user, book = request.POST['book_id'], text = request.POST['quote_text']) 
+    user = User.objects.get(id = request.user.id)
+    book = Book.objects.get(id = request.POST['book_id'])
+    text = request.POST['quote_text']
+    quote = Quote(user = user, book = book, text = text) 
     quote.save()
-    resp = {'success': True}
+    response = {'success': True}
     return HttpResponse(json.dumps(response), content_type="application/json") 
 
 
