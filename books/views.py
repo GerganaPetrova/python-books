@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import random
 import json
+import pytranslate
 
 def index(request):
     try:
@@ -132,3 +133,22 @@ def review(request):
     review.save()
     response = {'success': True }
     return HttpResponse(json.dumps(response), content_type='application/json')    
+
+def translate(request):
+    translation = pytranslate.translate(request.POST['text'], sl = 'english', tl = 'bulgarian')
+    response = {'text': translation }
+    return HttpResponse(json.dumps(response), conten_type = 'application/json')
+     
+def upload(request):
+    if request.method == 'GET':
+        temp = loader.get_template('upload.html')
+        context = RequestContext(request, {
+                'session': request.session,
+        })
+        return HttpResponse(temp.render(context))
+    elif request.method == 'POST':
+        text = request.FILES['book'].read()
+        user = User.objects.get(id = request.user.id)
+        book = Book(user = user, text = text, author = request.POST['author'], title = request.POST['title'])
+        book.save()
+        return HttpResponseRedirect('/books')
