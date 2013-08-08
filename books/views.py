@@ -9,13 +9,19 @@ from django.core.mail import send_mail
 import random
 
 def index(request):
-    quotes = Quote.objects.all()
-    temp = loader.get_template('index.html')
-    context = RequestContext(request, {
+    try:
+        quotes = Quote.objects.all()
+    except:
+        user = User()
+        book = Book(user = user, title = 'The perks of being walflower', author = 'Steven Chobsky')
+        quotes = [Quote(book = book, user = user, text = 'Right now we are alive and in this moment I swear we are infinite.')]
+    finally:
+        temp = loader.get_template('index.html')
+        context = RequestContext(request, {
             'quote': random.choice(quotes),
             'session': request.session,
-    })
-    return HttpResponse(temp.render(context))
+        })
+        return HttpResponse(temp.render(context))
 
 def my_login(request):
     if request.method == 'GET':
@@ -60,4 +66,79 @@ def signup(request):
         user.save()
         send_mail("Wellcome %s" % user.get_full_name(),"Hello, dumbass!", 'example.online.reader@gmail.com',[email])
         return HttpResponseRedirect('/login')
+
+@login_required
+def books(request):
+    books = Book.objects.filter(user = request.user.id)
+    temp = loader.get_template('books.html')
+    context = RequestContext(request, {
+        'books': books,
+    })
+    return HttpResponse(temp.render(context))
+
+@login_required    
+def book_id(request, id_num):
+    book = Book.objects.get(id = int(id_num))
+    page = 1
+    temp = loader.get_template('book.html')
+    context = RequestContext(request, {
+          'book': book,
+          'page': page,
+    })
+    return HttpResponse(temp.render(context))
+
+@login_required
+def book_id_page(request, id_num, page_num):
+    book = Book.objects.get(id = int(id_num))
+    page = int(page_num)
+    temp = loader.get_template('book.html')
+    context = RequestContext(request, {
+          'book': book,
+          'page': page,
+    })
+    return HttpResponse(temp.render(context))
+
+def quotes(request):
+    quotes = Quote.objects.filter(user = request.user.id)
+    temp = loader.get_template('quotes.html')
+    context = RequestContext(request, {
+        'quotes': quotes,
+    })
+    return HttpResponse(temp.render(context))
+
+def quote(request):
+    quote = Quote(user = request.user, book = request.POST['book_id'], text = request.POST['quote_text']) 
+    quote.save()
+    resp = {'success': True}
+    return HttpResponse(json.dumps(response), content_type="application/json") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

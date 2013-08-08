@@ -2,16 +2,16 @@
 
 {% block content %}
 <script type="text/javascript" src="/static/javascript/book.js"></script>
-<h3 align=center> {{ book.author }} -{{ book.title }} </h2>
+<h3 align=center> {{ book.author }} - {{ book.title }} </h2>
 
 
 <ul class="pager">             
-  <li><a href="/book/{{ book.id }}/{{ page - 1 }}">Previous</a></li>
-  <li><a href="/book/{{ book.id }}/{{ page + 1 }}">Next</a></li>
+  <li><a href="/book/{{ book.id }}/{{ page|add:"-1"}}">Previous</a></li>
+  <li><a href="/book/{{ book.id }}/{{ page|add:"1"}}">Next</a></li>
 </ul>
 
 <div class="well span9 offset3" id="page">
-  {% for line in book.page(page) %}
+  {% for line in book.pages %}
    <p> {{ line }} </p>
   {% endfor %}
 </div>
