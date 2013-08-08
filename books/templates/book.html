@@ -1,3 +1,6 @@
+{% extends 'layout.html' %}
+
+{% block content %}
 <script type="text/javascript" src="/static/javascript/book.js"></script>
 <h3 align=center> {{ book.author }} -{{ book.title }} </h2>
 
@@ -15,3 +18,4 @@
 
 <button class= "btn" id="quote_btn" onclick="quote({{ book.id }})">Quote</button>
 <button class= "btn" id="translate_btn" onclick="translate_selection()">Translate</button>
+{% endblock %}

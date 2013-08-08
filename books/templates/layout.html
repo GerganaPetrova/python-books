@@ -12,7 +12,7 @@
       <div class="navbar-inner"> 
         <ul class="nav">
           <li><a href="/">Home</a></li>
-         {% if session.user %}
+         {% if user.is_authenticated %}
           <li><a href="/upload">Upload</a></li>
           <li><a href="/books">Books</a></li>
           <li><a href="/quotes">Quotes</a></li> 
@@ -20,7 +20,7 @@
          {% endif %} 
         </ul>
         <ul class="nav pull-right">
-          {% if session.user %}
+          {% if user.is_authenticated %}
              <li><a href="/logout">Log Out</a></li>
           {% else %}
              <li><a href="/login">Log In </a></li>

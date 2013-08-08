@@ -5,6 +5,7 @@ from django.template import RequestContext, loader
 from django.shortcuts import redirect
 from django.contrib.auth import logout,login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 import random
 
 def index(request):
@@ -20,7 +21,7 @@ def my_login(request):
     if request.method == 'GET':
         temp = loader.get_template('login.html')
         context = RequestContext(request, {
-                'sesstion': request.session,
+                'session': request.session,
         })
         return HttpResponse(temp.render(context))
     elif request.method == 'POST':
@@ -29,18 +30,34 @@ def my_login(request):
         user = authenticate(username = username, password = password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/index')
+            temp = loader.get_template('index.html')
+            context = RequestContext(request, {
+                    'user': user,
+            })
+            return HttpResponse(temp.render(context))
         else:
             return HttpResponseRedirect('/login')    
 
-def logout(request):
+def my_logout(request):
     logout(request)
-    return HttpResponeRedirect('/index')
+    return HttpResponseRedirect('/')
 
 def signup(request):
     if request.method == 'GET':
         temp = loader.get_template('signup.html')
-        return HttpResponse(temp.render())
+        context = RequestContext(request, {
+                'session': request.session,
+        })
+        return HttpResponse(temp.render(context))
     elif request.method == 'POST':
-        user = User(request)
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User(first_name = first_name, last_name = last_name, email = email, username = username)
+        user.set_password(password)
+        user.save()
+        send_mail("Wellcome %s" % user.get_full_name(),"Hello, dumbass!", 'example.online.reader@gmail.com',[email])
+        return HttpResponseRedirect('/login')
 

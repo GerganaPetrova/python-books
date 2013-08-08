@@ -4,9 +4,20 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
-    url(r'^$', 'books.views.index'),
-    url(r'^login', 'books.views.my_login')
+urlpatterns = patterns('books.views',
+    url(r'^$', 'index'),
+    url(r'^login', 'my_login'),
+    url(r'^logout', 'my_logout'),
+    url(r'^signup', 'signup'),
+    url(r'^books', 'books'),
+    url(r'^book/(\d+)', 'book_id'),
+    url(r'^book/(\d+)/(\d+)', 'book_id_on_page'),
+    url(r'^quotes', 'quotes'),
+    url(r'^quote', 'quote'),
+    url(r'^reviews', 'reviews'),
+    url(r'^review', 'review'),
+    url(r'^translate', 'translate'),
+    url(r'^upload', 'upload'),
     # Examples:
     # url(r'^$', 'booksite.views.home', name='home'),
     # url(r'^booksite/', include('booksite.foo.urls')),

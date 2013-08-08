@@ -57,6 +57,16 @@ MEDIA_ROOT = ''
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = ''
 
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'example.online.reader@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'fakpassword'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -94,6 +104,15 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
