@@ -82,18 +82,21 @@ def book_id(request, id_num):
     temp = loader.get_template('book.html')
     context = RequestContext(request, {
           'book': book,
-          'page': book.pages(page),
+          'page': '\n'.join(book.pages(page)),
+          'page_previous': 1,
+          'page_next': 2,
     })
     return HttpResponse(temp.render(context))
 
-def book_id_page(request, id_num, page_num):
+def book_id_on_page(request, id_num, page_num):
     book = Book.objects.get(id = int(id_num))
-    page_number = int(page_num)
     temp = loader.get_template('book.html')
+    page_num = int(page_num)
     context = RequestContext(request, {
           'book': book,
-          'page_number': page_number,
-          'page': book.pages(page_number),
+          'page_previous': page_num - 1,         
+          'page_next': page_num + 1,
+          'page': '\n'.join(book.pages(page_num)),
     })
     return HttpResponse(temp.render(context))
 

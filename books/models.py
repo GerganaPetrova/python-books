@@ -11,9 +11,9 @@ class Book(models.Model):
     title = models.CharField(max_length = 100)
     
     def pages(self,number):
-        page_length = 35
+        page_length = 25
         lines = self.text.splitlines()
-        return [lines[i:i+page_length] for i in range(0, len(lines), page_length)][number - 1]   
+        return [lines[i:i+page_length] for i in range(0, len(lines), page_length)][number - 1]  
 
 class Quote(models.Model):
     book = models.ForeignKey('Book')

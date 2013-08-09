@@ -4,14 +4,13 @@
 <script type="text/javascript" src="/static/javascript/book.js"></script>
 <h3 align=center> {{ book.author }} - {{ book.title }} </h2>
 
-
 <ul class="pager">             
-  <li><a href="/book/{{ book.id }}/{{ page_number|add:"-1"}}">Previous</a></li>
-  <li><a href="/book/{{ book.id }}/{{ page_number|add:"1"}}">Next</a></li>
+  <li><a href= "{% url 'books.views.book_id_on_page' book.id page_previous %}">Previous</a></li>
+  <li><a href="{% url 'books.views.book_id_on_page' book.id page_next %}">Next</a></li>
 </ul>
 
 <div class="well span9 offset3" id="page">
-    <p> {{ page }} </p>
+    <p> {{ page|linebreaksbr }} </p>
 </div>
 
 <button class= "btn" id="quote_btn" onclick="quote({{ book.id }})">Quote</button>
