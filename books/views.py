@@ -12,14 +12,16 @@ import json
 def index(request):
     try:
         quotes = Quote.objects.all()
+        quote = random.choice(quotes)
     except:
         user = User()
         book = Book(user = user, title = 'The perks of being walflower', author = 'Steven Chobsky')
         quotes = [Quote(book = book, user = user, text = 'Right now we are alive and in this moment I swear we are infinite.')]
+        quote = random.choice(quotes)
     finally:
         temp = loader.get_template('index.html')
         context = RequestContext(request, {
-            'quote': random.choice(quotes),
+            'quote': quote,
             'session': request.session,
         })
         return HttpResponse(temp.render(context))
