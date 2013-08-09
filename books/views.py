@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import random
 import json
-import pytranslate
 
 def index(request):
     try:
@@ -69,7 +68,6 @@ def signup(request):
         send_mail("Wellcome %s" % user.get_full_name(),"Hello, dumbass!", 'example.online.reader@gmail.com',[email])
         return HttpResponseRedirect('/login')
 
-@login_required
 def books(request):
     books = Book.objects.filter(user = request.user.id)
     temp = loader.get_template('books.html')
@@ -78,25 +76,24 @@ def books(request):
     })
     return HttpResponse(temp.render(context))
 
-@login_required    
 def book_id(request, id_num):
     book = Book.objects.get(id = int(id_num))
     page = 1
     temp = loader.get_template('book.html')
     context = RequestContext(request, {
           'book': book,
-          'page': page,
+          'page': book.pages(page),
     })
     return HttpResponse(temp.render(context))
 
-@login_required
 def book_id_page(request, id_num, page_num):
     book = Book.objects.get(id = int(id_num))
-    page = int(page_num)
+    page_number = int(page_num)
     temp = loader.get_template('book.html')
     context = RequestContext(request, {
           'book': book,
-          'page': page,
+          'page_number': page_number,
+          'page': book.pages(page_number),
     })
     return HttpResponse(temp.render(context))
 
@@ -133,11 +130,6 @@ def review(request):
     review.save()
     response = {'success': True }
     return HttpResponse(json.dumps(response), content_type='application/json')    
-
-def translate(request):
-    translation = pytranslate.translate(request.POST['text'], sl = 'english', tl = 'bulgarian')
-    response = {'text': translation }
-    return HttpResponse(json.dumps(response), conten_type = 'application/json')
      
 def upload(request):
     if request.method == 'GET':
