@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 import random
 import json
 from django.views.generic.base import View
+from django.views.generic import ListView
 
 class Index(View):
     template_name = 'index.html'
@@ -24,7 +25,7 @@ class Index(View):
         finally:
             return render(request, self.template_name, {'quote': quote})
 
-class MyLogin(View):
+class LoginView(View):
     template_name = 'login.html'
 
     def get(self,request):
@@ -38,7 +39,7 @@ class MyLogin(View):
         else:
             return HttpResponseRedirect('/login')
 
-class MyLogout(View):
+class LogoutView(View):
     template_name = 'logout.html'
 
     def get(self, request):
@@ -63,13 +64,13 @@ class Signup(View):
         send_mail("Wellcome %s" % user.get_full_name(),"Hello, dumbass!", 'example.online.reader@gmail.com',[email])
         return HttpResponseRedirect('/login')
 
-class Books(View):
+class Books(ListView):
+    model = Book
     template_name = 'books.html'
-
-    def get(self,request):
-        books = Book.objects.filter(user = request.user.id)
-        return render(request, self.template_name, {'books': books })
-
+    
+    def get_queryset(self):
+        queryset = Book.objects.filter(user = self.request.user.id)
+        return queryset
 
 class BookId(View):
     template_name = 'book.html'
@@ -94,14 +95,15 @@ class BookIdOnPage(View):
                                                     'page': '\n'.join(book.pages(page_num)),
                                                   })
 
-class MyQuotes(View):
+class QuotesView(ListView):
+    model = Quote 
     template_name = 'quotes.html'
     
-    def get(self, request):
-        quotes = Quote.objects.filter(user = request.user.id)
-        return render(request, self.template_name, {'quotes': quotes })
+    def get_queryset(self):
+        queryset = Quote.objects.filter(user = self.request.user.id)
+        return queryset
 
-class MyQuote(View):
+class QuoteView(View):
     
     def post(self, request):
         user = User.objects.get(id = request.user.id)
@@ -112,14 +114,14 @@ class MyQuote(View):
         response = {'success': True}
         return HttpResponse(json.dumps(response), content_type="application/json") 
 
-class MyReviews(View):
+class ReviewsView(View):
     template_name = 'reviews.html'
 
     def get(self, request):
         reviews = Review.objects.filter(user = request.user.id)
         return render(request, self.template_name, { 'reviews': reviews })
 
-class MyReview(View):
+class ReviewView(View):
     
     def post(self, request):
         user = User.objects.get(id = request.user.id)

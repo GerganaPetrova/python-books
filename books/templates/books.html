@@ -5,7 +5,7 @@
 <h4 align="center"> Books:</h4>
   
 <ul id="book-list" class="span6">
-  {% for book in books %}
+  {% for book in object_list %}
     <li>
       <i><a class="book-link" href="/book/{{ book.id }}">{{ book.author }} - {{ book.title }}</a></i>
       <a class="review-link" href="/review" data-book_id="{{ book.id }}"><font color="#993D00"> add review </font></a>
