@@ -114,12 +114,13 @@ class QuoteView(View):
         response = {'success': True}
         return HttpResponse(json.dumps(response), content_type="application/json") 
 
-class ReviewsView(View):
+class ReviewsView(ListView):
+    model = Review 
     template_name = 'reviews.html'
-
-    def get(self, request):
-        reviews = Review.objects.filter(user = request.user.id)
-        return render(request, self.template_name, { 'reviews': reviews })
+    
+    def get_queryset(self):
+        queryset = Review.objects.filter(user = self.request.user.id)
+        return queryset
 
 class ReviewView(View):
     
